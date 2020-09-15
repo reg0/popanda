@@ -44,6 +44,7 @@
 </template>
 
 <script lang="ts">
+import './assets/reset.css';
 import Vue from 'vue';
 import HelloWorld from './components/HelloWorld.vue';
 
