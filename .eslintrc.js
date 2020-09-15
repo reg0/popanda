@@ -15,5 +15,7 @@ module.exports = {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'linebreak-style': 'off',
+    'lines-between-class-members': 'off',
+    'max-len': ['error', { "code": 160 }],
   },
 };
