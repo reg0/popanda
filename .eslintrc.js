@@ -17,5 +17,9 @@ module.exports = {
     'linebreak-style': 'off',
     'lines-between-class-members': 'off',
     'max-len': ['error', { "code": 160 }],
+    'class-methods-use-this': 'off',
+    "no-useless-constructor": "off",
+    "@typescript-eslint/no-useless-constructor": ["error"],
+    "import/prefer-default-export": "off",
   },
 };
