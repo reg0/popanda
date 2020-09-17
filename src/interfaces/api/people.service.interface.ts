@@ -1,5 +1,5 @@
 import { IPerson } from "../models/person.model.interface";
 
 export interface IPeopleService {
-  getTeammates(): Promise<IPerson[]>;
+  getTeammates(teamId: string): Promise<IPerson[]>;
 }
