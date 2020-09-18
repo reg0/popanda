@@ -1,6 +1,8 @@
 <template>
   <div class="schedule" id="schedule">
-  {{ !data || data.loading ? 'loading' : '' }}<br />
+    <v-overlay :value="!data || data.loading" :absolute="true" :opacity="0.1">
+      <v-progress-circular indeterminate size="64"></v-progress-circular>
+    </v-overlay>
     <table v-if="data.loaded">
       <thead>
         <tr>
@@ -31,31 +33,31 @@
 
   .schedule {
     width: 800px;
-    overflow-x: scroll;
+    // position: relative;
   }
 
-  table {
-    width: 2000px;
-    cursor: grab;
-  }
+  // table {
+  //   width: 2000px;
+  //   cursor: grab;
+  // }
 
-  tr:nth-child(2n) {
-    background: #f9f9f9;
-    .stck {
-      background: #f9f9f9;
-    }
-  }
+  // tr:nth-child(2n) {
+  //   background: #f9f9f9;
+  //   .stck {
+  //     background: #f9f9f9;
+  //   }
+  // }
 
-  td, th {
-    // border: solid 1px $color;
-    min-width: 150px;
-  }
+  // td, th {
+  //   // border: solid 1px $color;
+  //   min-width: 150px;
+  // }
 
-  .stck {
-    position: sticky;
-    left: 0px;
-    background: white;
-  }
+  // .stck {
+  //   position: sticky;
+  //   left: 0px;
+  //   background: white;
+  // }
 </style>
 
 <script lang="ts">
