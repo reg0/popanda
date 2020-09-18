@@ -1,13 +1,20 @@
 <template>
-  <v-expansion-panels :hover="true" :multiple="true" :value="openTeamsIndexes" @change="onChange">
-    <v-expansion-panel v-for="team in teams" :key="team.id">
-      <v-expansion-panel-header>{{ team.name }} [{{ team.peopleCount }}]</v-expansion-panel-header>
-      <v-expansion-panel-content>
-        <Schedule :data="teamsData[team.id]" :isoDateFrom="isoDateFrom" :isoDateTo="isoDateTo" :scale="scale" />
-      </v-expansion-panel-content>
-    </v-expansion-panel>
-  </v-expansion-panels>
+  <div class="content-wrapper">
+    <v-expansion-panels :hover="true" :multiple="true" :value="openTeamsIndexes" @change="onChange">
+      <v-expansion-panel v-for="team in teams" :key="team.id">
+        <v-expansion-panel-header>{{ team.name }} [{{ team.peopleCount }}]</v-expansion-panel-header>
+        <v-expansion-panel-content>
+          <Schedule :data="teamsData[team.id]" :team="team" :isoDateFrom="isoDateFrom" :isoDateTo="isoDateTo" :scale="scale" />
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+    </v-expansion-panels>
+  </div>
 </template>
+<style>
+  .content-wrapper {
+    max-width: 1150px;
+  }
+</style>
 
 <script lang="ts">
 import { IActivity } from '@/interfaces/models/actvity.model.interface';

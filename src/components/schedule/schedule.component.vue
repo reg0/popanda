@@ -1,74 +1,77 @@
 <template>
-  <div class="schedule" id="schedule">
-    <v-overlay :value="!data || data.loading" :absolute="true" :opacity="0.1">
-      <v-progress-circular indeterminate size="64"></v-progress-circular>
-    </v-overlay>
-    <table v-if="data.loaded">
-      <thead>
-        <tr>
-          <th class="stck"></th>
-          <th v-for="date in dates" :key="date.isoDate">{{date.week}}</th>
-        </tr>
-        <tr>
-          <th class="stck"></th>
-          <th v-for="date in dates" :key="date.isoDate">{{date.day}}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="person in data.people" :key="person.id">
-          <td class="stck">
-            {{ person.firstName }}
-          </td>
-          <td v-for="activity in data.activities[person.id]" :key="activity.id">
-            {{ activity.type }}
-          </td>
-        </tr>
-      </tbody>
+  <div class="schedule">
+    <table>
+      <v-overlay :value="!data || data.loading" :absolute="true" :opacity="0.1">
+        <v-progress-circular indeterminate size="64"></v-progress-circular>
+      </v-overlay>
+      <ScheduleHeader :dates="dates" :scale="scale" />
+      <ScheduleBody v-if="data.loaded" :dates="dates" :people="data.people" :activities="data.activities" />
+      <ScheduleBodyStub v-else :peopleCount="team.peopleCount" :datesCount="dates.length" />
     </table>
   </div>
 </template>
 
 <style lang="scss">
-  $color: navy;
+  $color: #ddd;
 
   .schedule {
-    width: 800px;
-    // position: relative;
+    table {
+      thead {
+        th {
+          border-right: solid 1px $color;
+
+          &.row-title {
+            text-align: right;
+            border: none;
+          }
+        }
+
+        &, tr:last-child th, th:last-child {
+          border: none;
+        }
+        tr:last-child th {
+          padding-bottom: 10px;
+        }
+      }
+    }
   }
 
-  // table {
-  //   width: 2000px;
-  //   cursor: grab;
-  // }
+  td {
+    border: solid 1px $color;
+    min-width: 40px;
 
-  // tr:nth-child(2n) {
-  //   background: #f9f9f9;
-  //   .stck {
-  //     background: #f9f9f9;
-  //   }
-  // }
-
-  // td, th {
-  //   // border: solid 1px $color;
-  //   min-width: 150px;
-  // }
-
-  // .stck {
-  //   position: sticky;
-  //   left: 0px;
-  //   background: white;
-  // }
+    &:empty::after {
+      content: "\00a0";
+    }
+  }
 </style>
 
 <script lang="ts">
-// import { PersonWithSchedule } from '@/models/person.model';
 import Vue from 'vue';
 import { getArrayOfDates } from '@/utils/date.utils';
+import { IPerson } from '@/interfaces/models/person.model.interface';
+import { IActivity } from '@/interfaces/models/actvity.model.interface';
+import { ITeam } from '@/interfaces/models/team.model.interface';
+import ScheduleHeader from './scheduleHeader.component.vue';
+import ScheduleBody from './scheduleBody.component.vue';
+import ScheduleBodyStub from './scheduleBodyStub.component.vue';
 
 export default Vue.extend({
   name: 'Schedule',
+
+  components: {
+    ScheduleHeader,
+    ScheduleBody,
+    ScheduleBodyStub,
+  },
+
   props: {
-    data: Object,
+    data: {
+      type: Object as () => {people: IPerson[]; activities: {[personId: string]: IActivity[]}},
+    },
+    team: {
+      type: Object as () => ITeam,
+    },
     isoDateFrom: String,
     isoDateTo: String,
     scale: Number,
