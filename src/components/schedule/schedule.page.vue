@@ -3,7 +3,12 @@
     <Navigation :scale="scale" @scaleChanged="scaleChanged" />
     <v-expansion-panels :hover="true" :multiple="true" :value="openTeamsIndexes" @change="openTeamsChanged">
       <v-expansion-panel v-for="team in teams" :key="team.id">
-        <v-expansion-panel-header>{{ team.name }} [{{ team.peopleCount }}]</v-expansion-panel-header>
+        <v-expansion-panel-header :color="team.color" :style="{ color: fontColorForBg(team.color) }">
+          {{ team.name }} [{{ team.peopleCount }}]
+          <template v-slot:actions>
+            <v-icon :color="fontColorForBg(team.color)">$expand</v-icon>
+          </template>
+        </v-expansion-panel-header>
         <v-expansion-panel-content>
           <Schedule :data="teamsData[team.id]" :team="team" :isoDateFrom="isoDateFrom" :isoDateTo="isoDateTo" :scale="scale" />
         </v-expansion-panel-content>
@@ -29,6 +34,7 @@ import { ITeam } from '@/interfaces/models/team.model.interface';
 import scheduleService from '@/services/stubs/activities.stub.service';
 import peopleService from '@/services/stubs/people.stub.service';
 import teamsService from '@/services/stubs/teams.stub.service';
+import { fontColorForBackground } from '@/utils/color.utils';
 import Vue from 'vue';
 import Schedule from './schedule.component.vue';
 import Navigation from './scheduleNavigation.component.vue';
@@ -118,6 +124,9 @@ export default Vue.extend({
         return result;
       }, {});
       /* eslint-enable no-param-reassign */
+    },
+    fontColorForBg(bgColor: string) {
+      return fontColorForBackground(bgColor);
     },
   },
 });

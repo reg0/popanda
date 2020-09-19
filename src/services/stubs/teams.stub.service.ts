@@ -9,11 +9,13 @@ export class TeamsStubService implements ITeamsService {
         name: 'Vinora',
         peopleCount: 5,
         orderNo: 0,
+        color: '#004d99',
       }, {
         id: 't002',
         name: 'ACDC',
         peopleCount: 3,
         orderNo: 1,
+        color: '#dddddd',
       },
     ]);
   }
