@@ -7,7 +7,7 @@ import { IPersonWithSchedule } from '@/interfaces/models/person.model.interface'
 import { Person } from '@/models/person.model';
 import { PersonWithSchedule } from '@/models/personWithSchedule.model';
 
-const ALL = [
+export const ALL = [
   new Person('p0000', 'Kamil', 'Mikula'),
   new Person('p0001', 'Piotr', 'Flisak'),
   new Person('p0002', 'Krystian', 'Przerwa-Tetmajer'),
