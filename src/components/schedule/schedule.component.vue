@@ -11,43 +11,9 @@
   </div>
 </template>
 
-<style lang="scss">
-  $color: #ddd;
-
-  .schedule {
-    table {
-      thead {
-        th {
-          border-right: solid 1px $color;
-
-          &.row-title {
-            text-align: right;
-            border: none;
-          }
-        }
-
-        &, tr:last-child th, th:last-child {
-          border: none;
-        }
-        tr:last-child th {
-          padding-bottom: 10px;
-        }
-      }
-    }
-  }
-
-  td {
-    border: solid 1px $color;
-    min-width: 40px;
-
-    &:empty::after {
-      content: "\00a0";
-    }
-  }
-</style>
-
 <script lang="ts">
 import Vue from 'vue';
+import './schedule.scss';
 import { getArrayOfDates } from '@/utils/date.utils';
 import { IPerson } from '@/interfaces/models/person.model.interface';
 import { IActivity } from '@/interfaces/models/actvity.model.interface';

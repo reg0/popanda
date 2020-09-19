@@ -1,0 +1,59 @@
+
+$color: #ddd;
+
+.schedule {
+  padding-top: 10px;
+  
+  table {
+    font-size: 12px;
+    table-layout: fixed;
+    width: 850px;
+
+    thead {
+      th {
+        border-right: solid 1px $color;
+        vertical-align: top;
+
+        &.sunday {
+          color: #e60000;
+        }
+
+        &.row-title {
+          text-align: right;
+          border: none;
+          width: 150px;
+          padding-right: 10px;
+        }
+      }
+
+      &, tr:last-child th, th:last-child {
+        border: none;
+      }
+      tr:last-child th {
+        padding-bottom: 10px;
+      }
+    }
+
+    tbody {
+      tr {
+        height: 45px;
+        max-height: 45px;
+        td {
+          vertical-align: middle;
+          // white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+    }
+  }
+}
+
+td {
+  border: solid 1px $color;
+  min-width: 40px;
+
+  &:empty::after {
+    content: "\00a0";
+  }
+}
