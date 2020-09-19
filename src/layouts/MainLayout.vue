@@ -91,8 +91,7 @@
     </v-app-bar>
     <v-main>
       <v-container
-        class="fill-height"
-        fluid
+        class="fill-height align-content-start"
       >
         <slot />
       </v-container>
