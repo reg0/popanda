@@ -1,6 +1,7 @@
 <template>
   <div class="content-wrapper">
-    <v-expansion-panels :hover="true" :multiple="true" :value="openTeamsIndexes" @change="onChange">
+    <Navigation :scale="scale" @scaleChanged="scaleChanged" />
+    <v-expansion-panels :hover="true" :multiple="true" :value="openTeamsIndexes" @change="openTeamsChanged">
       <v-expansion-panel v-for="team in teams" :key="team.id">
         <v-expansion-panel-header>{{ team.name }} [{{ team.peopleCount }}]</v-expansion-panel-header>
         <v-expansion-panel-content>
@@ -10,9 +11,14 @@
     </v-expansion-panels>
   </div>
 </template>
-<style>
+<style lang="scss">
   .content-wrapper {
     max-width: 1150px;
+    margin: 0 auto;
+
+    & > div {
+      width: 1000px;
+    }
   }
 </style>
 
@@ -25,6 +31,7 @@ import peopleService from '@/services/stubs/people.stub.service';
 import teamsService from '@/services/stubs/teams.stub.service';
 import Vue from 'vue';
 import Schedule from './schedule.component.vue';
+import Navigation from './scheduleNavigation.component.vue';
 
 export interface TeamData {
   loading: boolean;
@@ -38,6 +45,7 @@ export default Vue.extend({
 
   components: {
     Schedule,
+    Navigation,
   },
 
   data: () => ({
@@ -61,13 +69,16 @@ export default Vue.extend({
             activities: {},
           });
         });
-        this.onChange([0]);
+        this.openTeamsChanged([0]);
       }
     });
   },
 
   methods: {
-    onChange(openTeams: number[]) {
+    scaleChanged(newScale: number) {
+      this.scale = newScale;
+    },
+    openTeamsChanged(openTeams: number[]) {
       this.openTeamsIndexes = openTeams;
       openTeams
         .map((teamIdx) => this.teams[teamIdx].id)
