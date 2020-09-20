@@ -1,18 +1,22 @@
 <template>
   <thead>
     <tr>
+      <th> </th>
       <th class="row-title">year</th>
       <th v-for="year in colspans.years" :colspan="year.colspan" :key="year.date.year">{{year.date.year}}</th>
     </tr>
     <tr>
+      <th> </th>
       <th class="row-title">month</th>
       <th v-for="month in colspans.months" :colspan="month.colspan" :key="month.date.month">{{getMonthName(month.date)}}</th>
     </tr>
     <tr>
+      <th> </th>
       <th class="row-title">week</th>
       <th v-for="week in colspans.weeks" :colspan="week.colspan" :key="week.date.week">{{week.date.week}}</th>
     </tr>
     <tr>
+      <th> </th>
       <th class="row-title">day</th>
       <th v-for="date in dates" :key="date.isoDate" :class="isDayOff(date) ? 'sunday' : ''">
         {{date.day}}<br />{{getWeekdayName(date)}}

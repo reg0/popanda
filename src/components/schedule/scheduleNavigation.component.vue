@@ -13,7 +13,7 @@
           v-bind="attrs"
           v-on="on"
           outlined
-          class="scale-dropdown"
+          class="scale-dropdown d-none d-sm-flex"
         >
           {{ scaleItems.find((it) => it.scale === scale).name }}
         </v-btn>

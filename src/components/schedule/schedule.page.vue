@@ -18,11 +18,34 @@
 </template>
 <style lang="scss">
   .content-wrapper {
-    max-width: 1150px;
     margin: 0 auto;
 
     & > div {
-      width: 1000px;
+      width: 1020px;
+    }
+  }
+
+  @media (min-width: 500px) {
+    .content-wrapper > div {
+      width: 485px;
+    }
+  }
+
+  @media (min-width: 900px) {
+    .content-wrapper > div {
+      width: 885px;
+    }
+  }
+
+  @media (min-width: 1300px) {
+    .content-wrapper > div {
+      width: 1020px;
+    }
+  }
+
+  @media (min-width: 1600px) {
+    .content-wrapper > div {
+      width: 1320px;
     }
   }
 </style>
