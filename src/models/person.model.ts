@@ -5,7 +5,7 @@ export class Person implements IPerson {
 
   get initials() {
     return `${this.firstName.charAt(0)}${
-      this.lastName.replaceAll(/[\W]+/, ' ')
+      this.lastName.replaceAll(/[\W]+/g, ' ')
         .split(' ')
         .map((part) => part.charAt(0))
         .join('')

@@ -1,7 +1,14 @@
 <template>
   <tbody>
     <tr v-for="person in people" :key="person.id">
-      <td>
+      <td class="avatar">
+        <v-avatar color="primary" size="36">
+          <span class="white--text">
+            {{ person.initials }}
+          </span>
+        </v-avatar>
+      </td>
+      <td class="name">
         {{ person.lastName.replaceAll(/[\s]*-[\s]*/g, '&#8209;') }}
         {{ person.firstName.replaceAll(/[\s]/g, '&#0160;') }}
       </td>
