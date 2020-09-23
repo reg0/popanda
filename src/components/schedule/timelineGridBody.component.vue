@@ -13,7 +13,7 @@
       <ScheduleCell v-for="date in dates"
         :activity="activities[rowId(row)][date.isoDate]"
         :key="date.isoDate"
-        :iSholiday="holidays.indexOf(date.isoDate) >= 0"
+        :isHoliday="holidays.indexOf(date.isoDate) >= 0"
       />
     </tr>
   </tbody>
