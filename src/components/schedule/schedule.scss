@@ -87,6 +87,11 @@ $cellMargin: 1.5px;
       }
 
       tr {
+
+        &:hover {
+          background-color: #eee;
+        }
+
         height: $cellHeight;
         max-height: $cellHeight;
         td {
