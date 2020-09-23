@@ -14,7 +14,15 @@
         :rowId="rowId"
         :avatarContents="avatarContents"
         :avatarColor="avatarColor"
-      />
+      >
+        <template v-slot:default="slotProps">
+          <ScheduleCell v-for="date in dates"
+            :activity="activities[rowId(slotProps.row)][date.isoDate]"
+            :key="date.isoDate"
+            :isHoliday="holidays.indexOf(date.isoDate) >= 0"
+          />
+        </template>
+      </TimelineGridBody>
       <TimelineGridBodyStub v-else :rowsCount="team.peopleCount" :datesCount="dates.length" />
     </table>
   </div>
@@ -30,6 +38,7 @@ import { IPerson } from '@/interfaces/models/person.model.interface';
 import TimelineGridHeader from './timelineGridHeader.component.vue';
 import TimelineGridBody from './timelineGridBody.component.vue';
 import TimelineGridBodyStub from './timelineGridBodyStub.component.vue';
+import ScheduleCell from './scheduleCell.component.vue';
 import { TeamData } from './schedule.page.vue';
 
 export default Vue.extend({
@@ -39,6 +48,7 @@ export default Vue.extend({
     TimelineGridHeader,
     TimelineGridBody,
     TimelineGridBodyStub,
+    ScheduleCell,
   },
 
   props: {
