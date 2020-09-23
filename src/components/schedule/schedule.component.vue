@@ -36,9 +36,9 @@ import { getArrayOfDates, MyDate } from '@/utils/date.utils';
 import { ITeam } from '@/interfaces/models/team.model.interface';
 import { IActivity } from '@/interfaces/models/actvity.model.interface';
 import { IPerson } from '@/interfaces/models/person.model.interface';
-import TimelineGridHeader from './timelineGridHeader.component.vue';
-import TimelineGridBody from './timelineGridBody.component.vue';
-import TimelineGridBodyStub from './timelineGridBodyStub.component.vue';
+import TimelineGridHeader from '../timelineGrid/timelineGridHeader.component.vue';
+import TimelineGridBody from '../timelineGrid/timelineGridBody.component.vue';
+import TimelineGridBodyStub from '../timelineGrid/timelineGridBodyStub.component.vue';
 import ScheduleCell from './scheduleCell.component.vue';
 import { TeamData } from './schedule.page.vue';
 
