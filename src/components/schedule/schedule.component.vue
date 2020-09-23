@@ -6,10 +6,7 @@
       </v-overlay>
       <TimelineGridHeader :dates="dates" :scale="scale" />
       <TimelineGridBody v-if="teamData.loaded"
-        :dates="dates"
         :rows="teamData.people"
-        :activities="activities"
-        :holidays="holidays"
         :rowName="rowName"
         :rowId="rowId"
         :avatarContents="avatarContents"
