@@ -11,7 +11,7 @@
         </v-expansion-panel-header>
         <v-expansion-panel-content>
           <Schedule
-            :data="teamsData[team.id]"
+            :teamData="teamsData[team.id]"
             :team="team"
             :isoDateFrom="isoDateFrom"
             :isoDateTo="isoDateTo"
@@ -127,7 +127,6 @@ export default Vue.extend({
     });
     holidaysService.getHolidays(this.isoDateFrom, this.isoDateTo).then((h) => {
       this.holidays = h;
-      console.log(h);
     });
   },
 
