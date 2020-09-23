@@ -80,6 +80,12 @@ $cellMargin: 1.5px;
     }
 
     tbody {
+      &+tbody::before {
+        content: '';
+        display: block;
+        height: 10px;
+      }
+
       tr {
         height: $cellHeight;
         max-height: $cellHeight;
