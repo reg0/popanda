@@ -1,9 +1,9 @@
-import { IActivityType } from '../enums/activityType.enum';
+import { ActivityType } from '../enums/activityType.enum';
 
 export interface IActivity {
   id: string;
   isoDate: string;
-  type: IActivityType;
+  type: ActivityType;
   commentPublic: string;
   commentForSuperior: string;
 }

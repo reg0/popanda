@@ -51,7 +51,7 @@
 </style>
 
 <script lang="ts">
-import { IActivityType } from '@/interfaces/enums/activityType.enum';
+import { ActivityTypes } from '@/interfaces/enums/activityType.enum';
 import { IActivity } from '@/interfaces/models/actvity.model.interface';
 import { IPerson, IPersonWithSchedule } from '@/interfaces/models/person.model.interface';
 import { ITeam } from '@/interfaces/models/team.model.interface';
@@ -74,7 +74,7 @@ export interface TeamData {
   statsLoaded: boolean;
   people: IPerson[];
   activities: {[personId: string]: IActivity[]};
-  activityTypes: IActivityType[];
+  activityTypes: ActivityTypes[];
   stats: {[activityTypeLabel: string]: {[isoDate: string]: number}};
 }
 

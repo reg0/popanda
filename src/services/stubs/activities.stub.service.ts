@@ -2,7 +2,7 @@ import { IScheduleService } from '@/interfaces/api/schedule.service.interface';
 import { getArrayOfDates } from '@/utils/date.utils';
 import { IActivity } from '@/interfaces/models/actvity.model.interface';
 import { Activity } from '@/models/activity.model';
-import { ActivityType } from '@/interfaces/enums/activityType.enum';
+import { ActivityTypes } from '@/interfaces/enums/activityType.enum';
 import { IPersonWithSchedule } from '@/interfaces/models/person.model.interface';
 import { Person } from '@/models/person.model';
 import { PersonWithSchedule } from '@/models/personWithSchedule.model';
@@ -30,7 +30,7 @@ export class ScheduleService implements IScheduleService {
               return new Activity(
                 `a${person.id}_${isoDate}`,
                 isoDate,
-                Math.random() > 0.8 ? ActivityType.OFFICE : ActivityType.HOME_OFFICE,
+                Math.random() > 0.8 ? ActivityTypes.OFFICE : ActivityTypes.HOME_OFFICE,
                 '',
                 '',
               );
