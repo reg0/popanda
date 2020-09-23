@@ -15,12 +15,11 @@
 import Vue from 'vue';
 import './schedule.scss';
 import { getArrayOfDates } from '@/utils/date.utils';
-import { IPerson } from '@/interfaces/models/person.model.interface';
-import { IActivity } from '@/interfaces/models/actvity.model.interface';
 import { ITeam } from '@/interfaces/models/team.model.interface';
 import ScheduleHeader from './scheduleHeader.component.vue';
 import ScheduleBody from './scheduleBody.component.vue';
 import ScheduleBodyStub from './scheduleBodyStub.component.vue';
+import { TeamData } from './schedule.page.vue';
 
 export default Vue.extend({
   name: 'Schedule',
@@ -33,7 +32,7 @@ export default Vue.extend({
 
   props: {
     data: {
-      type: Object as () => {people: IPerson[]; activities: {[personId: string]: IActivity[]}},
+      type: Object as () => TeamData,
     },
     team: {
       type: Object as () => ITeam,

@@ -12,8 +12,7 @@
         {{ person.lastName.replaceAll(/[\s]*-[\s]*/g, '&#8209;') }}
         {{ person.firstName.replaceAll(/[\s]/g, '&#0160;') }}
       </td>
-      <td v-for="activity in activities[person.id]" :key="activity.id">
-        {{ activity.type }}
+      <td v-for="activity in activities[person.id]" :key="activity.id" :style="{backgroundColor: activity.type.color}">
       </td>
     </tr>
   </tbody>

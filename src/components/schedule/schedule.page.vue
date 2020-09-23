@@ -51,12 +51,15 @@
 </style>
 
 <script lang="ts">
+import { IActivityType } from '@/interfaces/enums/activityType.enum';
 import { IActivity } from '@/interfaces/models/actvity.model.interface';
 import { IPerson, IPersonWithSchedule } from '@/interfaces/models/person.model.interface';
 import { ITeam } from '@/interfaces/models/team.model.interface';
+import activityTypesService from '@/services/stubs/activityTypes.stub.service';
 import scheduleService from '@/services/stubs/activities.stub.service';
 import peopleService from '@/services/stubs/people.stub.service';
 import teamsService from '@/services/stubs/teams.stub.service';
+import scheduleStatsService from '@/services/scheduleStats.service';
 import { fontColorForBackground } from '@/utils/color.utils';
 import Vue from 'vue';
 import Schedule from './schedule.component.vue';
@@ -65,8 +68,14 @@ import Navigation from './scheduleNavigation.component.vue';
 export interface TeamData {
   loading: boolean;
   loaded: boolean;
+  activityTypesLoading: boolean;
+  activityTypesLoaded: boolean;
+  statsLoading: boolean;
+  statsLoaded: boolean;
   people: IPerson[];
   activities: {[personId: string]: IActivity[]};
+  activityTypes: IActivityType[];
+  stats: {[activityTypeLabel: string]: {[isoDate: string]: number}};
 }
 
 export default Vue.extend({
@@ -94,8 +103,14 @@ export default Vue.extend({
           this.updateTeamsData(team.id, {
             loading: false,
             loaded: false,
+            activityTypesLoading: false,
+            activityTypesLoaded: false,
+            statsLoading: false,
+            statsLoaded: false,
             people: [] as IPerson[],
+            activityTypes: [],
             activities: {},
+            stats: {},
           });
         });
         this.openTeamsChanged([0]);
@@ -121,8 +136,18 @@ export default Vue.extend({
       this.updateTeamsData(teamId, {
         ...this.teamsData[teamId],
         loading: true,
+        activityTypesLoading: true,
       });
-      peopleService.getTeammates(teamId).then((people) => {
+      Promise.all([
+        peopleService.getTeammates(teamId),
+        activityTypesService.getActivityTypes(teamId),
+      ]).then(([people, activityTypes]) => {
+        this.updateTeamsData(teamId, {
+          ...this.teamsData[teamId],
+          activityTypes,
+          activityTypesLoading: false,
+          activityTypesLoaded: true,
+        });
         scheduleService.getSchedule(teamId, people.map((p) => p.id), this.isoDateFrom, this.isoDateTo).then((schedule) => {
           this.updateTeamsData(teamId, {
             ...this.teamsData[teamId],
@@ -130,6 +155,15 @@ export default Vue.extend({
             activities: this.mapActivitiesByPersonId(schedule),
             loading: false,
             loaded: true,
+            statsLoading: true,
+          });
+          scheduleStatsService.getStats(schedule).then((stats) => {
+            this.updateTeamsData(teamId, {
+              ...this.teamsData[teamId],
+              statsLoading: false,
+              statsLoaded: true,
+              stats,
+            });
           });
         });
       });
