@@ -8,6 +8,9 @@ $above900TotalWidth: 850px;
 $above500TotalWidth: 450px; 
 $scale14NameColWidth: 160px;
 
+$cellHeight: 45px;
+$cellIconsHeight: 15px;
+$cellMargin: 1.5px;
 
 @media (min-width: 500px) {
   .schedule {
@@ -78,8 +81,8 @@ $scale14NameColWidth: 160px;
 
     tbody {
       tr {
-        height: 45px;
-        max-height: 45px;
+        height: $cellHeight;
+        max-height: $cellHeight;
         td {
           vertical-align: middle;
           // white-space: nowrap;
@@ -95,6 +98,32 @@ $scale14NameColWidth: 160px;
           &.name {
             min-width: auto;
             border-left: none;
+          }
+
+          .cell-icons {
+            height: $cellIconsHeight;
+            line-height: $cellIconsHeight;
+          }
+
+          &:not(.name):not(.avatar) {
+            padding: $cellMargin;
+          }
+
+          .cell-color {
+            height: #{$cellHeight - $cellIconsHeight - 2*$cellMargin};
+            line-height: #{$cellHeight - $cellIconsHeight - 2*$cellMargin};
+            border-radius: 5px;
+            text-align: center;
+            vertical-align: middle;
+            font-size: 1.3em;
+          }
+
+          .dayNumber {
+            visibility: hidden;
+          }
+
+          &:hover .dayNumber {
+            visibility: visible;
           }
         }
       }

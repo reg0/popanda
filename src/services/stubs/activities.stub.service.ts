@@ -31,8 +31,8 @@ export class ScheduleService implements IScheduleService {
                 `a${person.id}_${isoDate}`,
                 isoDate,
                 Math.random() > 0.8 ? ActivityTypes.OFFICE : ActivityTypes.HOME_OFFICE,
-                '',
-                '',
+                Math.random() > 0.6 ? 'public comment' : '',
+                Math.random() > 0.9 ? 'comment for manager' : '',
               );
             });
             return new PersonWithSchedule(person.id, person.firstName, person.lastName, activities);
