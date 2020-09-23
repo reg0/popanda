@@ -1,6 +1,6 @@
 <template>
   <tbody>
-    <tr v-for="person in peopleCount" :key="person">
+    <tr v-for="person in rowsCount" :key="person">
       <td class="row-title">&nbsp;</td>
       <td v-for="date in datesCount" :key="date">&nbsp;</td>
     </tr>
@@ -11,10 +11,10 @@
 import Vue from 'vue';
 
 export default Vue.extend({
-  name: 'ScheduleBodyStub',
+  name: 'TimelineGridBodyStub',
   props: {
     datesCount: Number,
-    peopleCount: Number,
+    rowsCount: Number,
   },
 });
 </script>

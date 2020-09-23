@@ -15,7 +15,7 @@
         :avatarContents="avatarContents"
         :avatarColor="avatarColor"
       />
-      <ScheduleBodyStub v-else :peopleCount="team.peopleCount" :datesCount="dates.length" />
+      <TimelineGridBodyStub v-else :rowsCount="team.peopleCount" :datesCount="dates.length" />
     </table>
   </div>
 </template>
@@ -29,7 +29,7 @@ import { IActivity } from '@/interfaces/models/actvity.model.interface';
 import { IPerson } from '@/interfaces/models/person.model.interface';
 import ScheduleHeader from './scheduleHeader.component.vue';
 import TimelineGridBody from './timelineGridBody.component.vue';
-import ScheduleBodyStub from './scheduleBodyStub.component.vue';
+import TimelineGridBodyStub from './timelineGridBodyStub.component.vue';
 import { TeamData } from './schedule.page.vue';
 
 export default Vue.extend({
@@ -38,7 +38,7 @@ export default Vue.extend({
   components: {
     ScheduleHeader,
     TimelineGridBody,
-    ScheduleBodyStub,
+    TimelineGridBodyStub,
   },
 
   props: {
