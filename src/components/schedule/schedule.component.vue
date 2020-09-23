@@ -4,7 +4,7 @@
       <v-overlay :value="!teamData || teamData.loading" :absolute="true" :opacity="0.1">
         <v-progress-circular indeterminate size="64"></v-progress-circular>
       </v-overlay>
-      <ScheduleHeader :dates="dates" :scale="scale" />
+      <TimelineGridHeader :dates="dates" :scale="scale" />
       <TimelineGridBody v-if="teamData.loaded"
         :dates="dates"
         :rows="teamData.people"
@@ -27,7 +27,7 @@ import { getArrayOfDates, MyDate } from '@/utils/date.utils';
 import { ITeam } from '@/interfaces/models/team.model.interface';
 import { IActivity } from '@/interfaces/models/actvity.model.interface';
 import { IPerson } from '@/interfaces/models/person.model.interface';
-import ScheduleHeader from './scheduleHeader.component.vue';
+import TimelineGridHeader from './timelineGridHeader.component.vue';
 import TimelineGridBody from './timelineGridBody.component.vue';
 import TimelineGridBodyStub from './timelineGridBodyStub.component.vue';
 import { TeamData } from './schedule.page.vue';
@@ -36,7 +36,7 @@ export default Vue.extend({
   name: 'Schedule',
 
   components: {
-    ScheduleHeader,
+    TimelineGridHeader,
     TimelineGridBody,
     TimelineGridBodyStub,
   },

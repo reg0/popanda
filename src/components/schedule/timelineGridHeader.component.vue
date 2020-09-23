@@ -31,7 +31,7 @@ import moment from 'moment';
 import { MyDate } from '@/utils/date.utils';
 
 export default Vue.extend({
-  name: 'ScheduleHeader',
+  name: 'TimelineGridHeader',
   props: {
     dates: {
       type: Array as () => MyDate[],
