@@ -1,7 +1,8 @@
 <template>
   <tbody>
     <tr v-for="person in rowsCount" :key="person">
-      <td class="row-title">&nbsp;</td>
+      <td class="avatar">&nbsp;</td>
+      <td class="name">&nbsp;</td>
       <td v-for="date in datesCount" :key="date">&nbsp;</td>
     </tr>
   </tbody>
