@@ -10,7 +10,14 @@
           </template>
         </v-expansion-panel-header>
         <v-expansion-panel-content>
-          <Schedule :data="teamsData[team.id]" :team="team" :isoDateFrom="isoDateFrom" :isoDateTo="isoDateTo" :scale="scale" />
+          <Schedule
+            :data="teamsData[team.id]"
+            :team="team"
+            :isoDateFrom="isoDateFrom"
+            :isoDateTo="isoDateTo"
+            :holidays="holidays"
+            :scale="scale"
+          />
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
@@ -56,6 +63,7 @@ import { IActivity } from '@/interfaces/models/actvity.model.interface';
 import { IPerson, IPersonWithSchedule } from '@/interfaces/models/person.model.interface';
 import { ITeam } from '@/interfaces/models/team.model.interface';
 import activityTypesService from '@/services/stubs/activityTypes.stub.service';
+import holidaysService from '@/services/holidays.service';
 import scheduleService from '@/services/stubs/activities.stub.service';
 import peopleService from '@/services/stubs/people.stub.service';
 import teamsService from '@/services/stubs/teams.stub.service';
@@ -88,6 +96,7 @@ export default Vue.extend({
 
   data: () => ({
     teams: [] as ITeam[],
+    holidays: [] as string[],
     openTeamsIndexes: [] as number[],
     teamsData: { } as {[teamId: string]: TeamData},
     isoDateFrom: '2020-09-14',
@@ -115,6 +124,10 @@ export default Vue.extend({
         });
         this.openTeamsChanged([0]);
       }
+    });
+    holidaysService.getHolidays(this.isoDateFrom, this.isoDateTo).then((h) => {
+      this.holidays = h;
+      console.log(h);
     });
   },
 

@@ -5,7 +5,7 @@
         <v-progress-circular indeterminate size="64"></v-progress-circular>
       </v-overlay>
       <ScheduleHeader :dates="dates" :scale="scale" />
-      <ScheduleBody v-if="data.loaded" :dates="dates" :people="data.people" :activities="data.activities" />
+      <ScheduleBody v-if="data.loaded" :dates="dates" :people="data.people" :activities="data.activities" :holidays="holidays" />
       <ScheduleBodyStub v-else :peopleCount="team.peopleCount" :datesCount="dates.length" />
     </table>
   </div>
@@ -36,6 +36,9 @@ export default Vue.extend({
     },
     team: {
       type: Object as () => ITeam,
+    },
+    holidays: {
+      type: Array as () => string[],
     },
     isoDateFrom: String,
     isoDateTo: String,

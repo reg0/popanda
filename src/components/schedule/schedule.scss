@@ -107,6 +107,10 @@ $cellMargin: 1.5px;
 
           &:not(.name):not(.avatar) {
             padding: $cellMargin;
+
+            &.holiday {
+              background-color: #f0eeee;
+            }
           }
 
           .cell-color {

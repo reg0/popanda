@@ -12,7 +12,7 @@
         {{ person.lastName.replaceAll(/[\s]*-[\s]*/g, '&#8209;') }}
         {{ person.firstName.replaceAll(/[\s]/g, '&#0160;') }}
       </td>
-      <td v-for="activity in activities[person.id]" :key="activity.id">
+      <td v-for="activity in activities[person.id]" :key="activity.id" :class="{holiday: holidays.indexOf(activity.isoDate) >= 0}">
         <div class="cell-icons">
         <v-tooltip top v-if="activity.commentForSuperior || activity.commentPublic">
           <template v-slot:activator="{ on, attrs }">
@@ -51,6 +51,9 @@ export default Vue.extend({
     },
     dates: {
       type: Array as () => MyDate[],
+    },
+    holidays: {
+      type: Array as () => string[],
     },
   },
   data: () => ({
