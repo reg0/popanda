@@ -23,41 +23,10 @@
     </v-expansion-panels>
   </div>
 </template>
-<style lang="scss">
-  .content-wrapper {
-    margin: 0 auto;
-
-    & > div {
-      width: 1020px;
-    }
-  }
-
-  @media (min-width: 500px) {
-    .content-wrapper > div {
-      width: 485px;
-    }
-  }
-
-  @media (min-width: 900px) {
-    .content-wrapper > div {
-      width: 885px;
-    }
-  }
-
-  @media (min-width: 1300px) {
-    .content-wrapper > div {
-      width: 1020px;
-    }
-  }
-
-  @media (min-width: 1600px) {
-    .content-wrapper > div {
-      width: 1320px;
-    }
-  }
-</style>
 
 <script lang="ts">
+import './schedulePage.scss';
+import Vue from 'vue';
 import { ActivityTypes } from '@/interfaces/enums/activityType.enum';
 import { IActivity } from '@/interfaces/models/actvity.model.interface';
 import { IPerson, IPersonWithSchedule } from '@/interfaces/models/person.model.interface';
@@ -69,7 +38,6 @@ import peopleService from '@/services/stubs/people.stub.service';
 import teamsService from '@/services/stubs/teams.stub.service';
 import scheduleStatsService from '@/services/scheduleStats.service';
 import { fontColorForBackground } from '@/utils/color.utils';
-import Vue from 'vue';
 import Schedule from './schedule.component.vue';
 import Navigation from './scheduleNavigation.component.vue';
 
