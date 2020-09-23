@@ -20,6 +20,7 @@
             :activity="activities[rowId(slotProps.row)][date.isoDate]"
             :key="date.isoDate"
             :isHoliday="holidays.indexOf(date.isoDate) >= 0"
+            :isoDate="date.isoDate"
           />
         </template>
       </TimelineGridBody>

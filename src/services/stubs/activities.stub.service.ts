@@ -27,14 +27,14 @@ export class ScheduleService implements IScheduleService {
           filteredPeople.map((person) => {
             const activities: IActivity[] = getArrayOfDates(isoDateFrom, isoDateTo).map((date) => {
               const { isoDate } = date;
-              return new Activity(
+              return Math.random() > 0.6 ? new Activity(
                 `a${person.id}_${isoDate}`,
                 isoDate,
                 Math.random() > 0.8 ? ActivityTypes.OFFICE : ActivityTypes.HOME_OFFICE,
                 Math.random() > 0.6 ? 'public comment' : '',
                 Math.random() > 0.9 ? 'comment for manager' : '',
-              );
-            });
+              ) : null;
+            }).filter((a) => !!a) as IActivity[];
             return new PersonWithSchedule(person.id, person.firstName, person.lastName, activities);
           }),
         );
