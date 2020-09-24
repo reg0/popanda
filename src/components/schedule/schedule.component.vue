@@ -22,6 +22,15 @@
         </template>
       </TimelineGridBody>
       <TimelineGridBodyStub v-else :rowsCount="team.peopleCount" :datesCount="dates.length" />
+      <ScheduleStats
+        :stats="teamData.stats"
+        :statsLoaded="teamData.statsLoaded"
+        :activityTypes="teamData.activityTypes"
+        :activityTypesLoaded="teamData.activityTypesLoaded"
+        :dates="dates"
+        :holidays="holidays"
+      >
+      </ScheduleStats>
     </table>
   </div>
 </template>
@@ -37,6 +46,7 @@ import TimelineGridHeader from '../timelineGrid/timelineGridHeader.component.vue
 import TimelineGridBody from '../timelineGrid/timelineGridBody.component.vue';
 import TimelineGridBodyStub from '../timelineGrid/timelineGridBodyStub.component.vue';
 import ScheduleCell from './scheduleCell.component.vue';
+import ScheduleStats from './scheduleStats.component.vue';
 import { TeamData } from './schedule.page.vue';
 
 export default Vue.extend({
@@ -47,6 +57,7 @@ export default Vue.extend({
     TimelineGridBody,
     TimelineGridBodyStub,
     ScheduleCell,
+    ScheduleStats,
   },
 
   props: {
