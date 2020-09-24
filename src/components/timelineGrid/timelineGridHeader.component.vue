@@ -73,7 +73,7 @@ export default Vue.extend({
       return moment(date.isoDate).format('dd');
     },
     isDayOff(date: MyDate) {
-      return moment(date.isoDate).isoWeekday() === 7;
+      return date.dayOfWeek === 7;
     },
   },
 });

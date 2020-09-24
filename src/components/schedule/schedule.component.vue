@@ -47,6 +47,7 @@ import { getArrayOfDates, MyDate } from '@/utils/date.utils';
 import { ITeam } from '@/interfaces/models/team.model.interface';
 import { IActivity } from '@/interfaces/models/actvity.model.interface';
 import { IPerson } from '@/interfaces/models/person.model.interface';
+import holidaysService from '@/services/holidays.service';
 import TimelineGridHeader from '../timelineGrid/timelineGridHeader.component.vue';
 import TimelineGridBody from '../timelineGrid/timelineGridBody.component.vue';
 import TimelineGridBodyStub from '../timelineGrid/timelineGridBodyStub.component.vue';
@@ -78,10 +79,11 @@ export default Vue.extend({
     isoDateFrom: String,
     isoDateTo: String,
     scale: Number,
+    hideWeekends: Boolean,
   },
   computed: {
     dates(): MyDate[] {
-      return getArrayOfDates(this.isoDateFrom, this.isoDateTo);
+      return getArrayOfDates(this.isoDateFrom, this.isoDateTo).filter((d) => !this.hideWeekends || !holidaysService.isWeekend(d));
     },
     activities(): {[personId: string]: {[isoDate: string]: IActivity}} {
       return Object.keys(this.teamData.activities).reduce((result, personId) => {

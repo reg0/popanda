@@ -1,6 +1,11 @@
 <template>
   <div class="content-wrapper">
-    <Navigation :scale="scale" @scaleChanged="scaleChanged" @dateFromChanged="dateFromChanged" />
+    <Navigation
+      :scale="scale"
+      @scaleChanged="scaleChanged"
+      @dateFromChanged="dateFromChanged"
+      @hideWeekendsChanged="hideWeekendsChanged"
+    />
     <v-expansion-panels :hover="true" :multiple="true" :value="openTeamsIndexes" @change="openTeamsChanged">
       <v-expansion-panel v-for="team in teams" :key="team.id">
         <v-expansion-panel-header :color="team.color" :style="{ color: fontColorForBg(team.color) }">
@@ -16,6 +21,7 @@
             :isoDateFrom="isoDateFrom"
             :isoDateTo="isoDateTo"
             :holidays="holidays"
+            :hideWeekends="hideWeekends"
             :scale="scale"
           />
         </v-expansion-panel-content>
@@ -72,6 +78,7 @@ export default Vue.extend({
     teamsData: { } as {[teamId: string]: TeamData},
     isoDateFrom: '2020-09-14',
     scale: SCALE_BIWEEKLY,
+    hideWeekends: false,
   }),
 
   computed: {
@@ -105,6 +112,9 @@ export default Vue.extend({
   },
 
   methods: {
+    hideWeekendsChanged(newValue: boolean) {
+      this.hideWeekends = newValue;
+    },
     scaleChanged(newScale: number) {
       this.scale = newScale;
       this.isoDateFrom = updateDateFrom(this.isoDateFrom, this.scale, 0);

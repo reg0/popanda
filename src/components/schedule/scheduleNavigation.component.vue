@@ -35,6 +35,9 @@
       <v-icon>mdi-chevron-right</v-icon>
     </v-btn>
     <v-spacer></v-spacer>
+    <v-switch class="v-input--reverse" @change="hideWeekendsChanged" hide-details>
+      <template #label>Hide weekends</template>
+    </v-switch>
     <template v-if="!collapsed" #extension>
       <v-toolbar-title>Title2</v-toolbar-title>
     </template>
@@ -48,6 +51,23 @@
     .scale-dropdown {
       margin-left: 50px;
       width: 112px
+    }
+
+    .v-input--reverse .v-input__slot {
+      flex-direction: row-reverse;
+      justify-content: flex-end;
+      .v-application--is-ltr & {
+        .v-input--selection-controls__input {
+          margin-right: 0;
+          margin-left: 8px;
+        }
+      }
+      .v-application--is-rtl & {
+        .v-input--selection-controls__input {
+          margin-left: 0;
+          margin-right: 8px;
+        }
+      }
     }
   }
 </style>
@@ -70,6 +90,9 @@ export default Vue.extend({
     },
     navigate(delta: 1 | -1) {
       this.$emit('dateFromChanged', delta);
+    },
+    hideWeekendsChanged(value: boolean) {
+      this.$emit('hideWeekendsChanged', value);
     },
   },
 });
