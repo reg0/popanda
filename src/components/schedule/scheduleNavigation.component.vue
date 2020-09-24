@@ -28,10 +28,10 @@
         </v-list-item>
       </v-list>
     </v-menu>
-    <v-btn icon>
+    <v-btn icon @click="navigate(-1)">
       <v-icon>mdi-chevron-left</v-icon>
     </v-btn>
-    <v-btn icon>
+    <v-btn icon @click="navigate(1)">
       <v-icon>mdi-chevron-right</v-icon>
     </v-btn>
     <v-spacer></v-spacer>
@@ -67,6 +67,9 @@ export default Vue.extend({
   methods: {
     scaleItemClicked(newScale: number) {
       this.$emit('scaleChanged', newScale);
+    },
+    navigate(delta: 1 | -1) {
+      this.$emit('dateFromChanged', delta);
     },
   },
 });

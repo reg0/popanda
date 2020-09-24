@@ -53,11 +53,36 @@ export function getArrayOfDates(isoDateFrom: string, isoDateTo: string): MyDate[
   return result;
 }
 
+export function updateDateFrom(isoDateFrom: string, scale: number, delta: number): string {
+  switch (scale) {
+    case SCALE_MONTHLY: {
+      return moment.utc(isoDateFrom)
+        .date(1)
+        .add(delta, 'month')
+        .format(ISO_DATE_ONLY);
+    }
+    case SCALE_WEEKLY:
+    case SCALE_BIWEEKLY: {
+      return moment.utc(isoDateFrom)
+        .day(1)
+        .add(delta, 'week')
+        .format(ISO_DATE_ONLY);
+    }
+    default: {
+      console.error(`Incorrect scale ${scale}`);
+      return moment.utc(isoDateFrom)
+        .day(1)
+        .add(delta, 'week')
+        .format(ISO_DATE_ONLY);
+    }
+  }
+}
+
 export function findDateTo(isoDateFrom: string, scale: number): string {
   switch (scale) {
     case SCALE_MONTHLY: {
       return moment.utc(isoDateFrom)
-        .day(1)
+        .date(1)
         .add(1, 'month')
         .add(-1, 'day')
         .format(ISO_DATE_ONLY);

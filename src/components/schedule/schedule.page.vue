@@ -1,6 +1,6 @@
 <template>
   <div class="content-wrapper">
-    <Navigation :scale="scale" @scaleChanged="scaleChanged" />
+    <Navigation :scale="scale" @scaleChanged="scaleChanged" @dateFromChanged="dateFromChanged" />
     <v-expansion-panels :hover="true" :multiple="true" :value="openTeamsIndexes" @change="openTeamsChanged">
       <v-expansion-panel v-for="team in teams" :key="team.id">
         <v-expansion-panel-header :color="team.color" :style="{ color: fontColorForBg(team.color) }">
@@ -38,7 +38,7 @@ import peopleService from '@/services/stubs/people.stub.service';
 import teamsService from '@/services/stubs/teams.stub.service';
 import scheduleStatsService from '@/services/scheduleStats.service';
 import { fontColorForBackground } from '@/utils/color.utils';
-import { findDateTo, SCALE_BIWEEKLY } from '@/utils/date.utils';
+import { findDateTo, SCALE_BIWEEKLY, updateDateFrom } from '@/utils/date.utils';
 import Schedule from './schedule.component.vue';
 import Navigation from './scheduleNavigation.component.vue';
 
@@ -107,13 +107,14 @@ export default Vue.extend({
   },
 
   methods: {
-    async scaleChanged(newScale: number) {
+    scaleChanged(newScale: number) {
       this.scale = newScale;
-
-      async.eachSeries(
-        this.openTeamsIndexes.map((teamIdx) => this.teams[teamIdx].id),
-        (teamId: string, done: () => void) => this.loadSchedule(teamId).then(done),
-      );
+      this.isoDateFrom = updateDateFrom(this.isoDateFrom, this.scale, 0);
+      this.reloadOpenSchedules();
+    },
+    dateFromChanged(delta: 1 | -1) {
+      this.isoDateFrom = updateDateFrom(this.isoDateFrom, this.scale, delta);
+      this.reloadOpenSchedules();
     },
     openTeamsChanged(openTeams: number[]) {
       this.openTeamsIndexes = openTeams;
@@ -144,6 +145,12 @@ export default Vue.extend({
         });
         this.loadSchedule(teamId);
       });
+    },
+    reloadOpenSchedules() {
+      async.eachSeries(
+        this.openTeamsIndexes.map((teamIdx) => this.teams[teamIdx].id),
+        (teamId: string, done: () => void) => this.loadSchedule(teamId).then(done),
+      );
     },
     loadSchedule(teamId: string) {
       this.updateTeamsData(teamId, {
