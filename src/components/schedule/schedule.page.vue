@@ -38,8 +38,11 @@ import peopleService from '@/services/stubs/people.stub.service';
 import teamsService from '@/services/stubs/teams.stub.service';
 import scheduleStatsService from '@/services/scheduleStats.service';
 import { fontColorForBackground } from '@/utils/color.utils';
+import { findDateTo, SCALE_BIWEEKLY } from '@/utils/date.utils';
 import Schedule from './schedule.component.vue';
 import Navigation from './scheduleNavigation.component.vue';
+
+const async = require('neo-async'); // eslint-disable-line @typescript-eslint/no-var-requires
 
 export interface TeamData {
   loading: boolean;
@@ -68,9 +71,14 @@ export default Vue.extend({
     openTeamsIndexes: [] as number[],
     teamsData: { } as {[teamId: string]: TeamData},
     isoDateFrom: '2020-09-14',
-    isoDateTo: '2020-09-27',
-    scale: 14,
+    scale: SCALE_BIWEEKLY,
   }),
+
+  computed: {
+    isoDateTo() {
+      return findDateTo(this.isoDateFrom, this.scale);
+    },
+  },
 
   created() {
     teamsService.getTeams().then((teams) => {
@@ -99,8 +107,13 @@ export default Vue.extend({
   },
 
   methods: {
-    scaleChanged(newScale: number) {
+    async scaleChanged(newScale: number) {
       this.scale = newScale;
+
+      async.eachSeries(
+        this.openTeamsIndexes.map((teamIdx) => this.teams[teamIdx].id),
+        (teamId: string, done: () => void) => this.loadSchedule(teamId).then(done),
+      );
     },
     openTeamsChanged(openTeams: number[]) {
       this.openTeamsIndexes = openTeams;
@@ -124,27 +137,41 @@ export default Vue.extend({
       ]).then(([people, activityTypes]) => {
         this.updateTeamsData(teamId, {
           ...this.teamsData[teamId],
+          people,
           activityTypes,
           activityTypesLoading: false,
           activityTypesLoaded: true,
         });
-        scheduleService.getSchedule(teamId, people.map((p) => p.id), this.isoDateFrom, this.isoDateTo).then((schedule) => {
-          this.updateTeamsData(teamId, {
-            ...this.teamsData[teamId],
-            people,
-            activities: this.mapActivitiesByPersonId(schedule),
-            loading: false,
-            loaded: true,
-            statsLoading: true,
-          });
-          scheduleStatsService.getStats(schedule).then((stats) => {
-            this.updateTeamsData(teamId, {
-              ...this.teamsData[teamId],
-              statsLoading: false,
-              statsLoaded: true,
-              stats,
-            });
-          });
+        this.loadSchedule(teamId);
+      });
+    },
+    loadSchedule(teamId: string) {
+      this.updateTeamsData(teamId, {
+        ...this.teamsData[teamId],
+        loading: true,
+        loaded: false,
+        statsLoaded: false,
+      });
+      return scheduleService.getSchedule(
+        teamId,
+        this.teamsData[teamId].people.map((p) => p.id),
+        this.isoDateFrom,
+        this.isoDateTo,
+      ).then((schedule) => {
+        this.updateTeamsData(teamId, {
+          ...this.teamsData[teamId],
+          activities: this.mapActivitiesByPersonId(schedule),
+          loading: false,
+          loaded: true,
+          statsLoading: true,
+        });
+        return scheduleStatsService.getStats(schedule);
+      }).then((stats) => {
+        this.updateTeamsData(teamId, {
+          ...this.teamsData[teamId],
+          statsLoading: false,
+          statsLoaded: true,
+          stats,
         });
       });
     },

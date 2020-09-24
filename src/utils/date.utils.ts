@@ -2,6 +2,12 @@
 
 import * as moment from 'moment';
 
+export const SCALE_MONTHLY = 31;
+export const SCALE_BIWEEKLY = 14;
+export const SCALE_WEEKLY = 7;
+
+const ISO_DATE_ONLY = 'YYYY-MM-DD';
+
 export class MyDate {
   day: number;
   month: number;
@@ -22,7 +28,7 @@ export async function asyncForEachDate(isoDateFrom: string, isoDateTo: string, d
   let i = moment.utc(isoDateFrom);
 
   while (true) {
-    const iIso = i.format('YYYY-MM-DD');
+    const iIso = i.format(ISO_DATE_ONLY);
     await doStuff(iIso);
     if (iIso === isoDateTo) {
       break;
@@ -36,7 +42,7 @@ export function getArrayOfDates(isoDateFrom: string, isoDateTo: string): MyDate[
   let i = moment.utc(isoDateFrom);
 
   while (true) {
-    const iIso = i.format('YYYY-MM-DD');
+    const iIso = i.format(ISO_DATE_ONLY);
     result.push(new MyDate(iIso));
     if (iIso === isoDateTo) {
       break;
@@ -47,4 +53,29 @@ export function getArrayOfDates(isoDateFrom: string, isoDateTo: string): MyDate[
   return result;
 }
 
+export function findDateTo(isoDateFrom: string, scale: number): string {
+  switch (scale) {
+    case SCALE_MONTHLY: {
+      return moment.utc(isoDateFrom)
+        .day(1)
+        .add(1, 'month')
+        .add(-1, 'day')
+        .format(ISO_DATE_ONLY);
+    }
+    case SCALE_WEEKLY:
+    case SCALE_BIWEEKLY: {
+      return moment.utc(isoDateFrom)
+        .day(1)
+        .add(scale - 1, 'day')
+        .format(ISO_DATE_ONLY);
+    }
+    default: {
+      console.error(`Incorrect scale ${scale}`);
+      return moment.utc(isoDateFrom)
+        .day(1)
+        .add(SCALE_BIWEEKLY - 1, 'day')
+        .format(ISO_DATE_ONLY);
+    }
+  }
+}
 /* eslint-enable no-await-in-loop, no-constant-condition */
