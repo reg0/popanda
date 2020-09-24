@@ -53,7 +53,7 @@ import TimelineGridBody from '../timelineGrid/timelineGridBody.component.vue';
 import TimelineGridBodyStub from '../timelineGrid/timelineGridBodyStub.component.vue';
 import ScheduleCell from './scheduleCell.component.vue';
 import ScheduleStats from './scheduleStats.component.vue';
-import { TeamData } from './schedule.page.vue';
+import { TeamData } from './teamData.dto';
 
 export default Vue.extend({
   name: 'Schedule',

@@ -33,9 +33,8 @@
 <script lang="ts">
 import './schedulePage.scss';
 import Vue from 'vue';
-import { ActivityTypes } from '@/interfaces/enums/activityType.enum';
 import { IActivity } from '@/interfaces/models/actvity.model.interface';
-import { IPerson, IPersonWithSchedule } from '@/interfaces/models/person.model.interface';
+import { IPersonWithSchedule } from '@/interfaces/models/person.model.interface';
 import { ITeam } from '@/interfaces/models/team.model.interface';
 import activityTypesService from '@/services/stubs/activityTypes.stub.service';
 import holidaysService from '@/services/holidays.service';
@@ -46,22 +45,10 @@ import scheduleStatsService from '@/services/scheduleStats.service';
 import { fontColorForBackground } from '@/utils/color.utils';
 import { findDateTo, SCALE_BIWEEKLY, updateDateFrom } from '@/utils/date.utils';
 import Schedule from './schedule.component.vue';
+import { TeamData, TEAM_DATA_DEFAULT_VALUES } from './teamData.dto';
 import Navigation from './scheduleNavigation.component.vue';
 
 const async = require('neo-async'); // eslint-disable-line @typescript-eslint/no-var-requires
-
-export interface TeamData {
-  loading: boolean;
-  loaded: boolean;
-  activityTypesLoading: boolean;
-  activityTypesLoaded: boolean;
-  statsLoading: boolean;
-  statsLoaded: boolean;
-  people: IPerson[];
-  activities: {[personId: string]: IActivity[]};
-  activityTypes: ActivityTypes[];
-  stats: {[activityTypeLabel: string]: {[isoDate: string]: number}};
-}
 
 export default Vue.extend({
   name: 'SchedulePage',
@@ -92,18 +79,7 @@ export default Vue.extend({
       this.teams = teams;
       if (teams.length) {
         teams.forEach((team) => {
-          this.updateTeamsData(team.id, {
-            loading: false,
-            loaded: false,
-            activityTypesLoading: false,
-            activityTypesLoaded: false,
-            statsLoading: false,
-            statsLoaded: false,
-            people: [] as IPerson[],
-            activityTypes: [],
-            activities: {},
-            stats: {},
-          });
+          this.updateTeamsData(team.id, TEAM_DATA_DEFAULT_VALUES);
         });
         this.openTeamsChanged([0]);
       }
@@ -141,7 +117,6 @@ export default Vue.extend({
     },
     loadTeamData(teamId: string) {
       this.updateTeamsData(teamId, {
-        ...this.teamsData[teamId],
         loading: true,
         activityTypesLoading: true,
       });
@@ -150,7 +125,6 @@ export default Vue.extend({
         activityTypesService.getActivityTypes(teamId),
       ]).then(([people, activityTypes]) => {
         this.updateTeamsData(teamId, {
-          ...this.teamsData[teamId],
           people,
           activityTypes,
           activityTypesLoading: false,
@@ -168,7 +142,6 @@ export default Vue.extend({
     },
     loadSchedule(teamId: string) {
       this.updateTeamsData(teamId, {
-        ...this.teamsData[teamId],
         loading: true,
         loaded: false,
         statsLoaded: false,
@@ -180,7 +153,6 @@ export default Vue.extend({
         this.isoDateTo,
       ).then((schedule) => {
         this.updateTeamsData(teamId, {
-          ...this.teamsData[teamId],
           activities: this.mapActivitiesByPersonId(schedule),
           loading: false,
           loaded: true,
@@ -189,17 +161,19 @@ export default Vue.extend({
         return scheduleStatsService.getStats(schedule);
       }).then((stats) => {
         this.updateTeamsData(teamId, {
-          ...this.teamsData[teamId],
           statsLoading: false,
           statsLoaded: true,
           stats,
         });
       });
     },
-    updateTeamsData(teamId: string, data: TeamData) {
+    updateTeamsData(teamId: string, data: Partial<TeamData>) {
       this.teamsData = {
         ...this.teamsData,
-        [teamId]: data,
+        [teamId]: {
+          ...this.teamsData[teamId],
+          ...data,
+        },
       };
     },
     mapActivitiesByPersonId(schedule: IPersonWithSchedule[]) {
