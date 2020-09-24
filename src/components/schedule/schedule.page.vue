@@ -101,9 +101,7 @@ export default Vue.extend({
         this.openTeamsChanged([0]);
       }
     });
-    holidaysService.getHolidays(this.isoDateFrom, this.isoDateTo).then((h) => {
-      this.holidays = h;
-    });
+    this.loadHolidays();
   },
 
   methods: {
@@ -126,6 +124,11 @@ export default Vue.extend({
           }
         });
     },
+    loadHolidays() {
+      holidaysService.getHolidays(this.isoDateFrom, this.isoDateTo).then((h) => {
+        this.holidays = h;
+      });
+    },
     loadTeamData(teamId: string) {
       this.updateTeamsData(teamId, {
         ...this.teamsData[teamId],
@@ -147,6 +150,7 @@ export default Vue.extend({
       });
     },
     reloadOpenSchedules() {
+      this.loadHolidays();
       async.eachSeries(
         this.openTeamsIndexes.map((teamIdx) => this.teams[teamIdx].id),
         (teamId: string, done: () => void) => this.loadSchedule(teamId).then(done),
