@@ -9,16 +9,21 @@
         :rows="teamData.people"
         :rowName="rowName"
         :rowId="rowId"
-        :avatarContents="avatarContents"
-        :avatarColor="avatarColor"
       >
-        <template v-slot:default="slotProps">
+        <template v-slot:cell="slotProps">
           <ScheduleCell v-for="date in dates"
             :activity="activities[rowId(slotProps.row)][date.isoDate]"
             :key="date.isoDate"
             :isHoliday="holidays.indexOf(date.isoDate) >= 0"
             :isoDate="date.isoDate"
           />
+        </template>
+        <template v-slot:avatar="slotProps">
+          <v-avatar :color="avatarColor(slotProps.row)" size="36">
+            <span class="white--text">
+              {{ avatarContents(slotProps.row) }}
+            </span>
+          </v-avatar>
         </template>
       </TimelineGridBody>
       <TimelineGridBodyStub v-else :rowsCount="team.peopleCount" :datesCount="dates.length" />

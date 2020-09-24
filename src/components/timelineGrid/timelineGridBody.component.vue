@@ -2,15 +2,11 @@
   <tbody>
     <tr v-for="row in rows" :key="rowId(row)">
       <td class="avatar">
-        <v-avatar :color="avatarColor(row)" size="36">
-          <span class="white--text">
-            {{ avatarContents(row) }}
-          </span>
-        </v-avatar>
+        <slot name="avatar" v-bind:row="row"></slot>
       </td>
       <td class="name" v-html="rowName(row)">
       </td>
-      <slot v-bind:row="row"></slot>
+      <slot name="cell" v-bind:row="row"></slot>
     </tr>
   </tbody>
 </template>
@@ -28,14 +24,6 @@ export default Vue.extend({
       required: true,
     },
     rowId: {
-      type: Function as PropType<(person: IPerson) => string>,
-      required: true,
-    },
-    avatarContents: {
-      type: Function as PropType<(person: IPerson) => string>,
-      required: true,
-    },
-    avatarColor: {
       type: Function as PropType<(person: IPerson) => string>,
       required: true,
     },

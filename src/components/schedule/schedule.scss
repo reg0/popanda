@@ -86,6 +86,23 @@ $cellMargin: 1.5px;
         height: 10px;
       }
 
+      
+      &.stats {
+        tr {
+          height: 30px;
+          max-height: 30px;
+    
+          td:not(.name):not(.avatar) {
+            text-align: center;
+            font-size: 1.2em;
+          }
+
+          .v-avatar {
+            border-radius: 5px;
+          }
+        }
+      }
+
       tr {
 
         &:hover {

@@ -3,10 +3,9 @@
     :rows="activityTypes"
     :rowName="rowName"
     :rowId="rowId"
-    :avatarContents="avatarContents"
-    :avatarColor="avatarColor"
+    class="stats"
   >
-    <template v-slot:default="slotProps">
+    <template v-slot:cell="slotProps">
       <ScheduleStatsCell v-for="date in dates"
         :key="date.isoDate"
         :isHoliday="holidays.indexOf(date.isoDate) >= 0"
@@ -14,10 +13,27 @@
         :value="stats[slotProps.row.label] ? stats[slotProps.row.label][date.isoDate] : 0"
       />
     </template>
+    <template v-slot:avatar="slotProps">
+      <v-avatar :color="avatarColor(slotProps.row)" width="34" height="20" min-width="auto" />
+    </template>
   </TimelineGridBody>
   <TimelineGridBodyStub v-else-if="activityTypesLoaded" :rowsCount="activityTypes.length" :datesCount="dates.length" />
 </template>
+<style lang="scss">
+.schedule table {
+  tbody.stats {
+    tr {
+      height: 26px;
+      max-height: 26px;
 
+      td:not(.name):not(.avatar) {
+        text-align: center;
+        font-size: 1.2em;
+      }
+    }
+  }
+}
+</style>
 <script lang="ts">
 import Vue, { PropType } from 'vue';
 import './schedule.scss';
@@ -66,9 +82,6 @@ export default Vue.extend({
     },
     avatarColor(activityType: ActivityType) {
       return activityType.color;
-    },
-    avatarContents() {
-      return '';
     },
   },
 });
