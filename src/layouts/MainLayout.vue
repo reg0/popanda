@@ -65,7 +65,7 @@
         style="width: 300px"
         class="ml-0 pl-4"
       >
-        <span class="hidden-sm-and-down">PandaMiya </span>
+        <span class="hidden-sm-and-down">KtoKiedy </span>
         <v-icon>mdi-panda</v-icon>
       </v-toolbar-title>
       <v-spacer></v-spacer>
