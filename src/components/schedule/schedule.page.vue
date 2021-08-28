@@ -40,7 +40,7 @@ import activityTypesService from '@/services/stubs/activityTypes.stub.service';
 import holidaysService from '@/services/holidays.service';
 import scheduleService from '@/services/stubs/activities.stub.service';
 import peopleService from '@/services/stubs/people.stub.service';
-import teamsService from '@/services/stubs/teams.stub.service';
+import teamsService from '@/services/teams.service';
 import scheduleStatsService from '@/services/scheduleStats.service';
 import { fontColorForBackground } from '@/utils/color.utils';
 import { findDateTo, SCALE_BIWEEKLY, updateDateFrom } from '@/utils/date.utils';

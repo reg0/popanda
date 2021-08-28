@@ -6,7 +6,7 @@ export class PeopleService implements IPeopleService {
   async getTeammates(teamId: string): Promise<IPerson[]> {
     return new Promise((resolve) => {
       setTimeout(() => {
-        resolve(teamId === 't001' ? [
+        resolve(teamId === '6127edeec0c3bb6168a62f82' ? [
           ALL[0],
           ALL[1],
           ALL[2],
